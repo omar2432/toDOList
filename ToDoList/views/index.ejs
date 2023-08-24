@@ -1,9 +1,20 @@
+<head>
+    <title>ToDo List</title>
+    <style>
+        .completed {
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+
 <h1>ToDo List </h1>
 
 <%if(locals.toDoList.length > 0){%>
     <ul>
-        <% toDoList.forEach(element => {%>
-            <li><%= element %></li>
+        <% toDoList.forEach((element, index) => {%>
+            <li class="<% element["completed"]?'completed' : '' %>"><%= element["text"] %>
+                <input type="checkbox" id="checkbox<%= index %>" onchange="markCompleted(<%= index %>)" <% if (element["completed"]) { %> checked <% } %>>
+            </li>
             <%}); %>
     </ul>
     <%}%>
@@ -15,3 +26,16 @@
 
     <input type="submit" value="Submit">
 </form>
+
+<script>
+    function markCompleted(index) {
+        const listItem = document.querySelectorAll('li')[index];        
+        listItem.classList.toggle('completed');
+        //   /**/   //
+        if(toDoList[index]["completed"]){
+            toDoList[index]["completed"]=false;
+        }else{
+            toDoList[index]["completed"]=true;
+        }
+    }
+</script>

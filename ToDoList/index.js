@@ -16,7 +16,7 @@ app.get("/",(req,res)=>{
 app.post("/submit",(req,res)=>{
     
     var newTask=req.body["item"];
-    toDoList.push(newTask);
+    toDoList.push({text:newTask,completed:false});
     res.render("index.ejs",{toDoList});
 });
 
