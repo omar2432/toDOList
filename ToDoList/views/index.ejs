@@ -1,0 +1,17 @@
+<h1>ToDo List </h1>
+
+<%if(locals.toDoList.length > 0){%>
+    <ul>
+        <% toDoList.forEach(element => {%>
+            <li><%= element %></li>
+            <%}); %>
+    </ul>
+    <%}%>
+
+<form action="/submit" method="POST">
+
+    <label for="item">Enter Task:</label>
+    <input type="text" id="item" name="item" required><br><br>
+
+    <input type="submit" value="Submit">
+</form>
