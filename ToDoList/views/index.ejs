@@ -1,31 +1,106 @@
 <head>
-    <title>ToDo List</title>
+    <title> <% if(firstList){%>
+        ToDo List
+        <%}else{%>
+            Second ToDo List
+            <%} %>
+    </title>
     <style>
         .completed {
-            text-decoration: line-through;
+            text-decoration: line-through !important;
         }
+
+        @media (max-width: 576px) {
+            .list-group-item {
+                font-size: 40px !important; /* Adjust the font size for small screens */
+            }
+
+            h1{font-size: 70px !important;}
+        }
+
+        @media (min-width: 577px) and (max-width: 992px) {
+            .list-group-item {
+                font-size: 55px !important; /* Adjust the font size for medium screens */
+            }
+            h1{font-size: 80px !important;}
+        }
+
+        @media (max-width: 767px) {
+            .list-group-item {
+                font-size: 300px !important; /* Adjust the font size for mobile devices */
+            }
+        }
+
     </style>
+
+    <!-- Adding bootstrap -->
+<link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
 </head>
 
-<h1>ToDo List </h1>
+<div class="text-center">
 
-<%if(locals.toDoList.length > 0){%>
-    <ul>
-        <% toDoList.forEach((element, index) => {%>
-            <li class="<% element["completed"]?'completed' : '' %>"><%= element["text"] %>
-                <input type="checkbox" id="checkbox<%= index %>" onchange="markCompleted(<%= index %>)" <% if (element["completed"]) { %> checked <% } %>>
-            </li>
-            <%}); %>
-    </ul>
-    <%}%>
+    <h1><% if(firstList){%>
+        ToDo List
+        <%}else{%>
+            Second ToDo List
+            <%} %>
+    </h1>
+</div>
 
-<form action="/submit" method="POST">
+<div class="container">
 
-    <label for="item">Enter Task:</label>
-    <input type="text" id="item" name="item" required><br><br>
+    <% if(firstList){%>
+        
+        <%if(locals.toDoList.length > 0){%>
+    
+            
+            <ul class="list-group list-group-flush">
+                <% toDoList.forEach((element, index) => {%>
+                    <li class="text-center list-group-item <% element["completed"]?'completed' : '' %>"><%= element["text"] %>
+                        <input type="checkbox" id="checkbox<%= index %>" onchange="markCompleted(<%= index %>)" <% if (element["completed"]) { %> checked <% } %>>
+                    </li>
+                    <%}); %>
+            </ul>
+            <%}%>
+        
+    
+        <%}else{%>
+            
+            <%if(locals.otherToDoList.length > 0){%>
+                <ul class="list-group">
+                    <% otherToDoList.forEach((element, index) => {%>
+                        <li class="list-group-item <% element["completed"]?'completed' : '' %>"><%= element["text"] %>
+                            <input type="checkbox" id="checkbox<%= index %>" onchange="markCompleted(<%= index %>)" <% if (element["completed"]) { %> checked <% } %>>
+                        </li>
+                        <%}); %>
+                </ul>
+                <%}%>
+            
+    
+            <%} %>
 
-    <input type="submit" value="Submit">
-</form>
+
+
+
+        <br><br>
+
+        
+
+            <form action="/submit" method="POST">
+            
+                <input type="text" class="form-control" placeholder="Add a new Task" id="item" name="item" required><br><br>
+            
+                <input type="submit" class="btn btn-primary" value="Submit">
+            </form>
+            
+            <form action="/change" method="POST">
+                <button type="submit" class="btn btn-dark">Change List</button>
+              </form>
+
+            </div>
+
 
 <script>
     function markCompleted(index) {
@@ -38,4 +113,5 @@
             toDoList[index]["completed"]=true;
         }
     }
+
 </script>
