@@ -11,9 +11,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/node_modules', express.static('node_modules'));
 
 //app.use(express.static("public"));
-
-
-
 app.get("/",(req,res)=>{
     res.render("index.ejs",{firstList,toDoList,otherToDoList});
 });
